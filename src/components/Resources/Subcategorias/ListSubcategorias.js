@@ -1,5 +1,5 @@
 import React from "react";
-import {List, Datagrid, TextField,NumberField} from 'react-admin';
+import {List, Datagrid, TextField} from 'react-admin';
 export const ListSubcategorias = props => (
     <List {...props}>
         <Datagrid rowClick="edit">

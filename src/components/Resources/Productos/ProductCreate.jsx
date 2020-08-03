@@ -16,18 +16,15 @@ import {
     useDataProvider,
     AutocompleteInput,
     ReferenceInput,
-    ReferenceField,
-    useInput,
     useQuery,
-    TextField
+
 
 } from 'react-admin';
-import { InputAdornment ,MenuItem,TextField as TFUI} from '@material-ui/core';
-import {Autocomplete as AC, TextField as TF} from 'mui-rff';
+import { InputAdornment ,TextField as TFUI} from '@material-ui/core';
+import {Autocomplete as AC} from 'mui-rff';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {Field, useField,useForm} from 'react-final-form';
-import RichTextInput from 'ra-input-rich-text';
+
 
 import {validatePrecio, validateCantidad, validateCantidadNoreq} from "../Inventario/CreateInventario";
 import {Fragment, useEffect, useState} from "react";
@@ -119,7 +116,6 @@ const ProductCreate = props => {
 
                     <FormDataConsumer>
                         {({ formData, ...rest }) => {
-                            console.log(formData,'subproduct' );
                             if (formData){
                                 if (!formData.esSubproducto){
                                     return <Fragment>

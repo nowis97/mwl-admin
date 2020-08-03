@@ -4,8 +4,7 @@ import {
     SimpleForm,
     TextInput,
     required,
-    ReferenceInput,
-    SelectInput
+
 
 }
     from 'react-admin';

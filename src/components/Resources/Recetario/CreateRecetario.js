@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
     Create,
-    SimpleForm,
     TextInput,
     required,
     TabbedForm,
@@ -27,7 +26,7 @@ const CreateRecetario = props =>{
                     <TextInput label ={"Nombre de la receta"} source={"nombre"} validate ={required("Campo requerido")} />
                     <ArrayInput source={"inventario"}>
                         <SimpleFormIterator>
-                            <ReferenceInput reference={"inventario"} source={"id"} filter={{categoria:'5f211802ce2bc83f7c994bee'}} label={"Materia Prima"} >
+                            <ReferenceInput reference={"inventario"} source={"id"} label={"Materia Prima"} >
                                 <AutocompleteInput optionText={"nombreMaterial"} />
                             </ReferenceInput>
 

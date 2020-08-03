@@ -4,9 +4,7 @@ import {
     SimpleForm,
     TextInput,
     required,
-    ReferenceArrayInput,
-    SelectArrayInput,
-    ChipField
+
 
 }
     from 'react-admin';

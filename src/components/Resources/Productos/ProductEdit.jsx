@@ -13,24 +13,18 @@ import {
     SimpleFormIterator,
     FormDataConsumer,
     BooleanInput,
-    useDataProvider,
     AutocompleteInput,
     ReferenceInput,
-    ReferenceField,
-    useInput,
     useQuery,
-    TextField
 
 } from 'react-admin';
-import { InputAdornment ,MenuItem,TextField as TFUI} from '@material-ui/core';
-import {Autocomplete as AC, TextField as TF} from 'mui-rff';
+import { InputAdornment ,TextField as TFUI} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {Field, useField,useForm} from 'react-final-form';
-import RichTextInput from 'ra-input-rich-text';
+
 
 import {validatePrecio, validateCantidad, validateCantidadNoreq} from "../Inventario/CreateInventario";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useState} from "react";
 
 
 export const styles = {
@@ -44,7 +38,7 @@ export const styles = {
 
 
 const Inventarios = ({scopedFormData,...rest}) => {
-    const { data, loading, error } = useQuery({
+    const { data, loading } = useQuery({
         type: 'getOne',
         resource: 'inventario',
         payload: { id: scopedFormData.id }
@@ -75,36 +69,7 @@ const PreviewImage = ({ record,source }) => {
         return <ImageField record={record}  source={ source} />
     }
 
-const EditPersonalizado = ({record,props}) =>{
-    debugger;
-    return (<SimpleFormIterator {...props} >
-        <TextInput source="nombre" label={"Nombre del campo"} />
-        <SelectInput source="tipo" label={"Tipo de campo"} choices={[
-            { id: 'text', name: 'Texto' },
-            { id: 'number', name: 'Numero' },
-            { id: 'select', name: 'Selección Multiple' },
-        ]} />
 
-        <BooleanInput label={"Requerido"} source={"esRequerido"}/>
-        <FormDataConsumer>
-            {({ formData, scopedFormData,getSource, ...rest }) => {
-                if (scopedFormData){
-                    if (scopedFormData.tipo ==='select')
-                        return (
-                            <ArrayInput source={getSource("values")} label={"Valores seleccionables"}>
-                                <SimpleFormIterator>
-                                    <TextInput source={"nombre"} label={"Valor"} />
-                                </SimpleFormIterator>
-                            </ArrayInput>
-                        )
-                    else return null;
-                }
-
-
-            }}
-        </FormDataConsumer>
-    </SimpleFormIterator>)
-}
 
 const useStyles = makeStyles(styles);
 

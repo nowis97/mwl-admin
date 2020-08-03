@@ -3,8 +3,6 @@ import {
     Edit,
     SimpleForm,
     TextInput,
-    ReferenceInput,
-    required,
     NumberInput,
     SelectInput
 }

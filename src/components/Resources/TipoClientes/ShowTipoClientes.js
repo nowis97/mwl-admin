@@ -2,10 +2,7 @@ import {
     Show,
     SimpleShowLayout,
     TextField,
-    DateField,
-    EditButton,
-    RichTextField,
-    required, SimpleForm
+
 } from 'react-admin';
 import React from "react";
 

@@ -3,9 +3,9 @@ import {
     Create,
     SimpleForm,
     TextInput,
-    ReferenceInput,
+
     required,
-    NumberInput,
+
     SelectInput,
     minLength,
     maxLength,

@@ -4,14 +4,9 @@ import './App.css';
 
 import {Admin,Resource} from "react-admin";
 import CustomLayout from "./components/layout/CustomLayout";
-import {ListCliente} from "./components/Resources/Clientes/ListCliente";
 import {CreateCliente} from "./components/Resources/Clientes/CreateCliente";
 import {EditCliente} from "./components/Resources/Clientes/EditCliente";
-import {CreateTipoClientes} from "./components/Resources/TipoClientes/CreateTipoClientes";
-import {ListTipoCliente} from "./components/Resources/TipoClientes/ListTipoClientes";
-import {ShowTipoClientes} from "./components/Resources/TipoClientes/ShowTipoClientes";
-import {EditTipoClientes} from "./components/Resources/TipoClientes/EditTipoClientes";
-import {ListGuesser,EditGuesser} from 'react-admin';
+import {ListGuesser} from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import spanishMessages from '@blackbox-vision/ra-language-spanish';
 import CreateCategoria from './components/Resources/Categorias/CreateCategoria';

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import SettingsIcon from '@material-ui/icons/Settings';
-import LabelIcon from '@material-ui/icons/Label';
 import { useMediaQuery } from '@material-ui/core';
 import { DashboardMenuItem, MenuItemLink } from 'react-admin';
 import PersonIcon from '@material-ui/icons/Person';

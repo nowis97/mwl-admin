@@ -1,5 +1,5 @@
 import React from "react";
-import {List, Datagrid, TextField, ReferenceField, SelectField, NumberField} from "react-admin";
+import {List, Datagrid, TextField, ReferenceField, NumberField} from "react-admin";
 
 export const ListInventario = props =>{
     return (

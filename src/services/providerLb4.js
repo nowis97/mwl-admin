@@ -1,5 +1,7 @@
 import {fetchUtils} from 'react-admin';
-
+import * as moment from "moment";
+import {getTimeZoneLocal} from "../components/helpers/helpers";
+import {querySearchTextInsensitive} from "../components/helpers/filterstoqueries";
 
 export default (apiUrl, httpClient = fetchUtils.fetchJson) => ( {
     getAll :(resource) =>{
@@ -17,6 +19,31 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => ( {
             skip: (page-1) *perPage,
             where: params.filter
         }
+
+        for (const resourceKey in params.filter) {
+            if (resourceKey.includes(':')){
+                const key = resourceKey.split(':')[1]
+                params.filter[key] = querySearchTextInsensitive(params.filter[resourceKey])
+                delete params.filter[resourceKey];
+
+            }
+        }
+
+
+        for (const key in params.filter) {
+            const dateFormatUSA = moment(params.filter[key],'YYYY-MM-DD',true);
+
+            const dateFormatChile = moment(params.filter[key],'DD-MM-YYYY',true);
+
+
+             if (dateFormatUSA.isValid()) {
+                 params.filter[key] = dateFormatUSA.toJSON();
+             }else if (dateFormatChile.isValid()){
+                 params.filter[key] = dateFormatChile.toJSON();
+             }
+
+        }
+
 
         const url = `${apiUrl}/${resource}?filter=${JSON.stringify(query)}`;
 
@@ -36,8 +63,9 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => ( {
     getOne: (resource,params) =>{
         return httpClient(`${apiUrl}/${resource}/${params.id}`)
             .then(
-                (json) =>
-                    ({data:json})
+                (res) => {
+                    return ({data: res.json})
+                }
             );
     },
 
@@ -75,7 +103,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => ( {
     },
 
     create: (resource, params) =>{
-        console.log(params.data);
 
         return httpClient(`${apiUrl}/${resource}`, {
                 method: 'POST',
@@ -128,7 +155,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => ( {
                 }
             )
         ).then(responses =>{
-            console.log(responses);
             return {data: responses.map(responses.json)}
         });
 

@@ -23,22 +23,31 @@ export const validatePrecio = [required("Campo obligatorio"), minValue(0,"Precio
     number("Debe ser un numero") ];
 
 export const validateCantidad = [required("Campo obligatorio"),minValue(0,"Debe se mayor a uno"),
-    maxValue(1000,"No puede superar los 1000"),number("Debe ser un numero")]
+    maxValue(1000000,"No puede superar los 1000000"),number("Debe ser un numero")]
 
 export const validateCantidadNoreq = [minValue(0,"Debe se mayor a uno"),
-    maxValue(1000,"No puede superar los 1000"),number("Debe ser un numero")];
+    maxValue(1000000,"No puede superar los 1000000"),number("Debe ser un numero")];
 
 export const validataUnidadMedida = [required("Campo obligatorio"),minLength(0,"Debe tener al menos un caracter"),
     maxLength(3,"No puede exceder los tres caracteres")]
 
+export const transform = data =>{
+    data.costoUnitario = 0;
+
+    return data;
+
+}
 
 const CreateInventario = props =>{
+
+
+
    return(
-       <Create title={"Crear materia prima"} {...props}>
+       <Create title={"Crear materia prima"} {...props} transform={transform}>
             <SimpleForm redirect={"list"}>
                 <TextInput label={"Nombre del material"} source={"nombreMaterial"} validate={validateBase} />
                 <ReferenceInput reference={"categorias-inventario"} label={"Categoria"} source={"categoria"}>
-                    <SelectInput optionText={"nombre"}/>
+                    <SelectInput optionText={"nombre"} validate={validateBase}/>
                 </ReferenceInput>
                 <TextInput  label={"Marca"} source={"marca"} />
                 <NumberInput label={"Precio"} source={"precio"} validate={validatePrecio} InputProps={{startAdornment:<InputAdornment position={"start"}>$</InputAdornment>}}/>
@@ -60,7 +69,6 @@ const CreateInventario = props =>{
 }
 
 const CostoUnitario = ({formData}) =>{
-    console.log(formData);
     return (<TextField label={"Costo unitario"}
                        InputProps={{
                            endAdornment: <InputAdornment position="start">{'$/' +(formData?formData.unidadMedida:'') }</InputAdornment>,

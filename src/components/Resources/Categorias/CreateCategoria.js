@@ -18,7 +18,7 @@ import {
                 <TextInput label ={"Nombre"} source={"nombre"} validate ={required("Campo requerido")} />
                 <TextInput multiline label={"Descripción"} source={"descripcion"} validate={required("Campo requerido")}/>
                 <ReferenceArrayInput source={"id"} reference="subcategorias" label={"Subcategorias"}>
-                    <SelectArrayInput optionValue={"id"} optionText={"nombre"}>
+                    <SelectArrayInput optionValue={"id"} optionText={"nombre"} validate={required("Campo requerido")}>
                         <ChipField  source="nombre" />
                     </SelectArrayInput>
                 </ReferenceArrayInput>

@@ -4,10 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     Filter,
     List,
-    NumberInput,
     Pagination,
     ReferenceInput,
-    SearchInput,
+    TextInput,
     SelectInput,
     useTranslate,
     BooleanInput
@@ -29,21 +28,16 @@ const QuickFilter = ({ label }) => {
 
 export const ProductFilter = props => (
     <Filter {...props}>
-        <SearchInput source="nombre" alwaysOn />
+        <TextInput source="i:nombre" label={"Nombre del producto"} alwaysOn />
         <ReferenceInput
-            source="id"
+            source="categoria"
             reference="categorias"
-            sort={{ field: 'id', order: 'ASC' }}
+            label={"Categoria"}
         >
-            <SelectInput source="nombre" />
+            <SelectInput optionText={"nombre"} />
         </ReferenceInput>
-        <NumberInput source="precio" />
+
         <BooleanInput source={"esSubproducto"}/>
-        <QuickFilter
-            label="Stock"
-            source="stock"
-            defaultValue={10}
-        />
     </Filter>
 );
 
@@ -57,7 +51,6 @@ const ProductList= props => {
         >
             <GridList/>
         </List>);
-    }
-;
+    };
 
 export default ProductList;

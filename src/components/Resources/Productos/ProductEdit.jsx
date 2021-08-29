@@ -16,6 +16,7 @@ import {
     AutocompleteInput,
     ReferenceInput,
     useQuery,
+    TextField
 
 } from 'react-admin';
 import { InputAdornment ,TextField as TFUI} from '@material-ui/core';
@@ -25,10 +26,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import {validatePrecio, validateCantidad, validateCantidadNoreq} from "../Inventario/CreateInventario";
 import {Fragment, useState} from "react";
+import {filterToQuery} from "../../helpers/filterstoqueries";
 
 
 export const styles = {
-    price: { width: '7em' },
+    price: { width: '14em' },
     width: { width: '7em' },
     height: { width: '7em' },
     stock: { width: '7em' },
@@ -47,10 +49,10 @@ const Inventarios = ({scopedFormData,...rest}) => {
     if (!loading){
 
         return <Fragment key={rest.formData.inventarios.length}>
-            <TFUI defaultValue={data.json.marca} InputProps={{readOnly:true}} label={"Marca"} id={rest.formData.inventarios.length}
+            <TFUI defaultValue={data?data.marca:''} InputProps={{readOnly:true}} label={"Marca"} id={rest.formData.inventarios.length}
                   style={{marginBottom:'18px'}} />
             <br/>
-            <TFUI defaultValue={data.json.unidadMedida} InputProps={{readOnly:true}} label={"Unidad de medida"} id={rest.formData.inventarios.length}
+            <TFUI defaultValue={data?data.unidadMedida:''} InputProps={{readOnly:true}} label={"Unidad de medida"} id={rest.formData.inventarios.length}
                   style={{marginBottom:'18px'}} />
 
 
@@ -83,34 +85,49 @@ const ProductEdit = props => {
             <TabbedForm>
                 <FormTab label="Editar Producto">
                     <TextInput
-                        autoFocus
                         source="nombre"
                         label={"Nombre"}
                         validate={required()}
                     />
 
+                    <TextField source={"estado"} label={"Estado actual"}/>
+
                     <BooleanInput label={"Subproducto"} source={"esSubproducto"}/>
 
                     <TextInput multiline source="descripcion" label="Descripción" />
+
+                    <TextInput source={"costo"} label={"Costo unitario"} disabled/>
+
+                    <NumberInput source={"porcentajeGanancia"} label={"Porcentaje de ganancia"} format ={value =>  value *100}
+                                 className={classes.price}
+                                 InputProps={{
+                                     endAdornment: (
+                                         <InputAdornment position="end">
+                                             %
+                                         </InputAdornment>
+                                     ),
+                                 }} disabled/>
+
+                    <NumberInput
+                        label ="Precio"
+                        source="precio"
+                        validate={validatePrecio}
+                        className={classes.price}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    $
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
 
                     <FormDataConsumer>
                         {({ formData, ...rest }) => {
                             if (formData){
                                 if (!formData.esSubproducto){
                                     return <Fragment>
-                                        <NumberInput
-                                            label ="Precio"
-                                            source="precio"
-                                            validate={validatePrecio}
-                                            className={classes.price}
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        $
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
+
                                         <br/>
                                         <NumberInput
                                             label = "Stock"
@@ -123,7 +140,7 @@ const ProductEdit = props => {
                                     </Fragment>
                                 }
 
-                                return <ReferenceInput reference={"recetario"} source={"receta"} label={"Nombre receta"} >
+                                return <ReferenceInput reference={"recetario"} source={"receta"} label={"Nombre receta"} filterToQuery={searchText => filterToQuery(searchText,'nombre')} >
                                     <AutocompleteInput optionText={"nombre"}/>
                                 </ReferenceInput>
                             }
@@ -132,10 +149,10 @@ const ProductEdit = props => {
                         }
                     </FormDataConsumer>
 
-                    <ReferenceInput reference={"categorias"} source={"categoria"} label={"Categorias"}>
+                    <ReferenceInput reference={"categorias"} source={"categoria"} label={"Categorias"} filterToQuery={searchText => filterToQuery(searchText,'nombre')}>
                         <AutocompleteInput  optionText={"nombre"} />
                     </ReferenceInput>
-                    <ReferenceInput reference={"subcategorias"} source={"subCategoria"} label={"Subcategorias"} >
+                    <ReferenceInput reference={"subcategorias"} source={"subCategoria"} label={"Subcategorias"} filterToQuery={searchText => filterToQuery(searchText,'nombre')}>
                         <AutocompleteInput  optionText={"nombre"} />
                     </ReferenceInput>
                     {/*
@@ -162,17 +179,59 @@ const ProductEdit = props => {
                                 { id: 'select', name: 'Selección Multiple' },
                             ]} />
 
-                            <BooleanInput label={"Requerido"} source={"esRequerido"}/>
+                            <BooleanInput label={"Obligatorio"} source={"esObligatorio"}/>
+                            <BooleanInput label={"Costo extra"} source={"tieneCostoExtra"}/>
+                            <FormDataConsumer>
+                                {({scopedFormData,getSource}) =>{
+                                    if (!scopedFormData) return null;
+                                    return scopedFormData.tieneCostoExtra && <NumberInput
+                                        label ="Precio de agregado"
+                                        source={getSource("precioAgregado")}
+                                        validate={validatePrecio}
+                                        className={classes.price}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    $
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                }}
+                            </FormDataConsumer>
+
                             <FormDataConsumer>
                                 {({ formData, scopedFormData,getSource, ...rest }) => {
                                     if (scopedFormData){
                                         if (scopedFormData.tipo ==='select')
                                             return (
+                                                <Fragment>
+                                                    <BooleanInput label={"Permitir multiple elección"} source={getSource("permiteMultipleSeleccion")}/>
                                                 <ArrayInput source={getSource("values")} label={"Valores seleccionables"}>
                                                     <SimpleFormIterator>
-                                                        <TextInput source={"nombre"} label={"Valor"} />
+                                                        <TextInput validate={required()} source={"id"} label={"Valor"} />
+                                                        <BooleanInput label={"Costo extra"} source={"tieneCostoExtra"}/>
+                                                        <FormDataConsumer>
+                                                            {({scopedFormData,getSource}) =>{
+                                                                if (!scopedFormData) return null;
+                                                                return scopedFormData.tieneCostoExtra && <NumberInput
+                                                                    label ="Precio de agregado"
+                                                                    source={ getSource("precioAgregado")}
+                                                                    validate={validatePrecio}
+                                                                    className={classes.price}
+                                                                    InputProps={{
+                                                                        startAdornment: (
+                                                                            <InputAdornment position="start">
+                                                                                $
+                                                                            </InputAdornment>
+                                                                        ),
+                                                                    }}
+                                                                />
+                                                            }}
+                                                        </FormDataConsumer>
                                                     </SimpleFormIterator>
                                                 </ArrayInput>
+                                                </Fragment>
                                             )
                                         else return null;
                                     }
@@ -184,11 +243,12 @@ const ProductEdit = props => {
                     </ArrayInput>
                 </FormTab>
 
+                {esSubproducto? null:
                 <FormTab label={"Materias primas"} path={"inventario"}>
                     <ArrayInput source={"inventarios"}>
                         <SimpleFormIterator >
                             {/*<TF name={"cantidad"} label={"Cantidad"} type={"number"}/>*/}
-                            <ReferenceInput reference={"inventario"} source={"id"} label={"Materia Prima"} >
+                            <ReferenceInput reference={"inventario"} source={"id"} label={"Materia Prima"} filterToQuery={searchText => filterToQuery(searchText,'nombreMaterial')} >
                                 <AutocompleteInput  optionText={"nombreMaterial"} />
                             </ReferenceInput>
                             <FormDataConsumer>
@@ -196,7 +256,6 @@ const ProductEdit = props => {
                                 {({  scopedFormData,
                                       getSource,
                                       ...rest }) => {
-                                    console.log(scopedFormData);
 
                                     if (scopedFormData) {
                                         return (
@@ -223,7 +282,7 @@ const ProductEdit = props => {
 
                         </SimpleFormIterator>
                     </ArrayInput>
-                </FormTab>
+                </FormTab>}
 
                 <FormDataConsumer>
                     {({ formData}) => {
@@ -236,17 +295,19 @@ const ProductEdit = props => {
                     }
                 </FormDataConsumer>
 
+
+
                 {esSubproducto?
                     null
                     :
                     <FormTab label={"Subproductos"} path={"subproductos"}>
 
-                        <ArrayInput source={"subproductos"}>
+                        <ArrayInput source={"subProductos"} >
                             <SimpleFormIterator>
-                                <ReferenceInput reference={"productos"} source={"id"} label={"Producto"} >
-                                    <AutocompleteInput optionText={"nombre"}/>
+                                <ReferenceInput reference={"productos"} source={"id"} label={"Producto"} filterToQuery={searchText => filterToQuery(searchText,'nombre')} >
+                                    <AutocompleteInput optionText={"nombre"} validate={required()}/>
                                 </ReferenceInput>
-                                <NumberInput label={"Cantidad"} source={"cantidad"} />
+                                <NumberInput label={"Cantidad"} source={"cantidad"} validate={validateCantidad} />
                             </SimpleFormIterator>
                         </ArrayInput>
                     </FormTab>

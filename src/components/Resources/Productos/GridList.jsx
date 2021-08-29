@@ -86,12 +86,12 @@ const LoadedGridList = ({ ids, data, basePath, width }) => {
                         // @ts-ignore
                         component={Link}
                         key={id}
-                        to={linkToRecord(basePath, data[id].id)}
+                        to={linkToRecord(basePath, data[id]?data[id].id:'')}
                     >
-                        <img src={ URI +'images/'+data[id].imagenRuta} alt="" />
+                        <img src={ URI +'images/'+(data[id]?data[id].imagenRuta:'')} alt="" />
                         <GridListTileBar
                             className={classes.tileBar}
-                            title={data[id].nombre}
+                            title={data[id]?.nombre}
                             subtitle={
                                 <span>
                                     {data[id].stock}{' '}-{' $'}

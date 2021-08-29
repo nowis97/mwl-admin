@@ -17,7 +17,7 @@ const EditCategoria = props =>{
                 <TextInput label ={"Nombre"} source={"nombre"} validate ={required("Campo requerido")} />
                 <TextInput multiline label={"Descripción"} source={"descripcion"} validate={required("Campo requerido")}/>
                 <ReferenceArrayInput source={"subcategorias"} reference="subcategorias" label={"Subcategorias"}>
-                    <SelectArrayInput optionText={"nombre"}>
+                    <SelectArrayInput optionText={"nombre"} validate={required()}>
                         <ChipField  source="nombre" />
                     </SelectArrayInput>
                 </ReferenceArrayInput>

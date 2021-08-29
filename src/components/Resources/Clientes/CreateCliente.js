@@ -3,9 +3,7 @@ import {
     Create,
     SimpleForm,
     TextInput,
-
     required,
-
     SelectInput,
     minLength,
     maxLength,
@@ -23,9 +21,9 @@ export const validateEmail = [email("Ingrese un email valido")]
 export const CreateCliente = props =>{
     return (
         <Create title={"Crear nuevo cliente"} {...props}>
-            <SimpleForm>
+            <SimpleForm redirect={"list"}>
                 <TextInput label ={"Nombre"} source={"nombre"} validate ={validateCliente} />
-                <TextInput label={"Usuario de Instagram"} source={"usuarioInstagram"} validate={validateCliente}/>
+                <TextInput label={"Usuario de Instagram"} source={"usuarioInstagram"}/>
                 <TextInput label={"Celular"} source ={"celular"} validate = {validateCelular} type={"number"}/>
                 <TextInput label={"E-mail"} source={"email"} type={"email"} validate={validateEmail}/>
                 {/*
@@ -33,7 +31,7 @@ export const CreateCliente = props =>{
                     <SelectInput optionValue={"nombre"} optionText={"nombre"}/>
                 </ReferenceInput>
                 */}
-                {<SelectInput source="tipoCliente" choices={[
+                {<SelectInput source="tipoCliente" validate={required()} choices={[
                     { id: 'Normal', name: 'Normal' },
                     { id: 'Oroduccion', name: 'Produccion' },
                     { id: 'Comercial', name: 'Comercial' },

@@ -10,7 +10,7 @@ import {
     ReferenceInput,
     AutocompleteInput,
     FormDataConsumer,
-     useQuery,
+    useQuery, NumberInput,
 
 
 }
@@ -20,19 +20,22 @@ import RichTextInput from 'ra-input-rich-text';
 import {Inventarios} from "../Productos/ProductCreate";
 import {Fragment} from "react";
 import {TextField as TFUI} from "@material-ui/core";
+import {validateCantidad} from "../Inventario/CreateInventario";
+import {filterToQuery} from "../../helpers/filterstoqueries";
 
 
 const EditRecetario = props =>{
     return (
-        <Edit title={"Editar receta"} {...props}>
-            <TabbedForm>
+        <Edit title={"Editar receta"} {...props} >
+            <TabbedForm redirect={"list"}>
                 <FormTab label={"Receta"}>
                     <TextInput label ={"Nombre de la receta"} source={"nombre"} validate ={required("Campo requerido")} />
                     <ArrayInput source={"inventario"}>
                         <SimpleFormIterator>
-                            <ReferenceInput reference={"inventario"} source={"id"} label={"Materia Prima"} >
+                            <ReferenceInput reference={"inventario"} perPage={700} source={"id"} label={"Materia Prima"} filterToQuery={searchText => filterToQuery(searchText,"nombreMaterial")} >
                                 <AutocompleteInput  optionText={"nombreMaterial"} />
                             </ReferenceInput>
+                            <NumberInput source={"cantidad"} label={"Cantidad requerida"} validate={validateCantidad}/>
                             <FormDataConsumer>
 
                                 {({  scopedFormData,

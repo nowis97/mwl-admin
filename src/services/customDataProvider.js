@@ -1,4 +1,5 @@
 import providerLb4 from "./providerLb4";
+import { querySearchTextInsensitive} from "../components/helpers/filterstoqueries";
 const API = process.env["REACT_APP_API_URL"];
 
 const dataProvider = providerLb4(API);
@@ -27,7 +28,7 @@ export const myDataProvider = {
 
     update:(resource,params) =>{
         if (resource !== 'productos' || !params.data.imagenRuta )
-            return dataProvider.create(resource,params);
+            return dataProvider.update(resource,params);
 
         if (params.data.imagenRuta.rawFile instanceof File){
 
@@ -43,6 +44,23 @@ export const myDataProvider = {
             )
 
         }
+
+    },
+
+    getList: (resource,params) =>{
+
+        if (resource === "etiquetas" || resource === 'delivery')
+            return dataProvider.getList('pedidos',params)
+
+        if (resource !== 'clientes' && resource !== 'productos')
+            return dataProvider.getList(resource,params)
+
+        if (!params.filter) return dataProvider.getList(resource,params)
+
+
+        return dataProvider.getList(resource,params)
+
+
 
     }
 }

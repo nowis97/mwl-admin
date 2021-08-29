@@ -16,6 +16,8 @@ import {
 import RichTextInput from 'ra-input-rich-text';
 import {Inventarios} from "../Productos/ProductCreate";
 import {validateCantidad} from "../Inventario/CreateInventario";
+import {filterToQuery} from "../../helpers/filterstoqueries";
+
 
 
 const CreateRecetario = props =>{
@@ -24,9 +26,9 @@ const CreateRecetario = props =>{
             <TabbedForm redirect={"list"}>
                 <FormTab label={"Receta"}>
                     <TextInput label ={"Nombre de la receta"} source={"nombre"} validate ={required("Campo requerido")} />
-                    <ArrayInput source={"inventario"}>
+                    <ArrayInput source={"inventario"} validate={required("Inventario requerido")}>
                         <SimpleFormIterator>
-                            <ReferenceInput reference={"inventario"} source={"id"} label={"Materia Prima"} >
+                            <ReferenceInput reference={"inventario"} perPage={700} source={"id"} label={"Materia Prima"} filterToQuery={searchText => filterToQuery(searchText,'nombreMaterial')} >
                                 <AutocompleteInput optionText={"nombreMaterial"} />
                             </ReferenceInput>
 

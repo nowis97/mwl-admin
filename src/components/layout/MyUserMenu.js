@@ -12,7 +12,7 @@ const MyUserMenu = (props) => {
         <UserMenu  {...props}>
             <MenuItemLink
                 to="/mi-perfil"
-                primaryText={"Perfil de "+ user.name || '' }
+                primaryText={"Perfil de "+ user?.name || '' }
                 leftIcon={<SettingsIcon />}
             />
         </UserMenu>

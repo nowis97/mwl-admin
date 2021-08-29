@@ -10,7 +10,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.10.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.15.0",
     "lodash": "^4.17.20",
     "material-ui-color": "^0.4.6",
@@ -31,6 +31,7 @@
     "react-qr-reader": "^2.2.1",
     "react-qr-scanner": "0.0.11",
     "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
     "react-to-print": "^2.11.0",
     "reselect": "^4.0.0",
     "styled-components": "^5.2.1",
@@ -58,6 +59,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {}
+  }
 }

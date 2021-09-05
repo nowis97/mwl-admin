@@ -23,7 +23,6 @@ export const cambiarEstadoPedido = (estado,idPedido) =>{
 
 export const imprimirEtiquetas = ids =>{
     return axios.patch(`${URI}pedidos/imprimir-etiquetas`,ids,config);
-
 }
 
 export const obtenerRepartidores = () =>{

@@ -41,8 +41,6 @@ const FiltersEtiquetas = props => {
 
 const ActionsEtiquetas = ({handlePrint,setColorEtiqueta,colorEtiqueta,...props}) =>{
 
-
-
     const {
         className,
         exporter,
@@ -255,7 +253,7 @@ const CardQR = ({dataToShow,imgLogo,pedido,color}) =>{
         }
     })
 
-    qrcode._drawingPromise.then(() =>{
+    qrcode._canvasDrawingPromise.then(() =>{
         setDataImage(qrcode._canvas.getCanvas().toDataURL())
         setLoaded(true)
     })
